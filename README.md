@@ -12,7 +12,8 @@ docker run -dp 5000:5000 image_name
 
 docker run -dp 5000:5000 -w /app -v "$(pwd):/app" image_name
 
-docker run -dp 5000:5000 -w /app -v "$(pwd):/app" image_name sh -c "flask run --host 0.0.0.0          # Este comando le dice al Docker que NO corra el 'CMD' del Dockerfile, sino que ejecute "flask run"
+docker run -dp 5000:5000 -w /app -v "$(pwd):/app" image_name sh -c "flask run --host 0.0.0.0          
+#    Este comando le dice al Docker que NO corra el 'CMD' del Dockerfile, sino que ejecute "flask run"
 
 
 # Migrate database with flask
