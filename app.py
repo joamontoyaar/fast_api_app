@@ -1,5 +1,6 @@
 import os
 import secrets
+from dotenv import load_dotenv
 
 from flask import Flask, jsonify
 from flask_smorest import Api
@@ -16,8 +17,21 @@ from resources.tag import blp as TagBlueprint
 from resources.user import blp as UserBlueprint
 
 
+from sqlalchemy import create_engine
+
+engine = create_engine( os.getenv( "DATABASE_URL" ) )
+
+try:
+    connection = engine.connect()
+    print("Connection successful!")
+except Exception as e:
+    print(f"Connection failed: {e}")
+
+
+
 def create_app( db_url= None ):
   app= Flask( __name__ )
+  # load_dotenv                                                                             # Carga el contenido de las variables de entorno que están en el '.env'
 
   app.config[ "PROPAGATE_EXCEPTIONS" ]= True
   app.config[ "API_TITLE" ]= "Stores REST API with Flask"
