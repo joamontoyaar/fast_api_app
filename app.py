@@ -31,7 +31,7 @@ except Exception as e:
 
 def create_app( db_url= None ):
   app= Flask( __name__ )
-  # load_dotenv                                                                             # Carga el contenido de las variables de entorno que están en el '.env'
+  # load_dotenv()                                                                             # Carga el contenido de las variables de entorno que están en el '.env'
 
   app.config[ "PROPAGATE_EXCEPTIONS" ]= True
   app.config[ "API_TITLE" ]= "Stores REST API with Flask"

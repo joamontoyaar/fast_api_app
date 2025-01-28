@@ -1,4 +1,5 @@
 .env
+.venv
 RestEnv
 instance
 __pycache__
