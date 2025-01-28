@@ -4,8 +4,10 @@ from sqlalchemy import create_engine
 
 engine = create_engine( os.getenv( "DATABASE_URL" ) )
 
-try:
-    connection = engine.connect()
-    print("Connection successful!")
-except Exception as e:
-    print(f"Connection failed: {e}")
+def test_db_connection():
+        
+    try:
+        connection = engine.connect()
+        print( "Connection successful!" )
+    except Exception as e:
+        print( f"Connection failed: {e}" )

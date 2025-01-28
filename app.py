@@ -1,6 +1,8 @@
 import os
-import secrets
+import redis
+from rq import Queue
 from dotenv import load_dotenv
+from test_db_connection import test_db_connection
 
 from flask import Flask, jsonify
 from flask_smorest import Api
@@ -17,22 +19,16 @@ from resources.tag import blp as TagBlueprint
 from resources.user import blp as UserBlueprint
 
 
-from sqlalchemy import create_engine
 
-engine = create_engine( os.getenv( "DATABASE_URL" ) )
-
-try:
-    connection = engine.connect()
-    print("Connection successful!")
-except Exception as e:
-    print(f"Connection failed: {e}")
-
+test_db_connection()
 
 
 def create_app( db_url= None ):
   app= Flask( __name__ )
-  # load_dotenv()                                                                             # Carga el contenido de las variables de entorno que están en el '.env'
+  load_dotenv()                                                                             # Carga el contenido de las variables de entorno que están en el '.env'
 
+  connection= redis.from_url( os.getenv( "REDIS_URL" ) )
+  app.queue= Queue( "emails", connection= connection )
   app.config[ "PROPAGATE_EXCEPTIONS" ]= True
   app.config[ "API_TITLE" ]= "Stores REST API with Flask"
   app.config[ "API_VERSION" ]= "v1"

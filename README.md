@@ -16,7 +16,9 @@ docker build -t image_name .
 docker compose up
 
 
-# Built the image in Docker loccaly within the Terminal
+# Built a SQL Server image in Docker locally within the Terminal
+docker pull mcr.microsoft.com/mssql/server:2022-latest
+
 docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrongPassword!" -e "MSSQL_TLS_ENABLED=0" -p 1433:1433 --name sqlserver_container -d mcr.microsoft.com/mssql/server:2022-latest
 
 
@@ -66,3 +68,14 @@ CMD ["/bin/bash", "docker-entrypoint.sh"]
 
 # Activate venv
 .\.venv\Scripts\Activate
+
+
+# Run local smtp server
+python -m aiosmtpd -n -l localhost:1025
+
+
+# Run the 'rq' worker on Docker
+docker run -w /app <image_name> sh -c "rq worker -u <worker_url> <name_of_the_queue>"
+
+#   <worker_url>:   Where to connect the worker to to start getting tasks
+#   <name_of_the_queue>: Name of the queue you wanna get tasks from. This one is define in the 'app.py' file: app.queue= Queue( "emails", connection= connection ). In this case, is 'emails'
